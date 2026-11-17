@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ARC TECH AI</title>
+  <style>
+    :root{--bg:#080d1b;--panel:#111a2e;--line:#263653;--text:#eef4ff;--muted:#9fb0ca;--accent:#7c5cff;--cyan:#21d4fd}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,#17234a 0,transparent 35%),var(--bg);color:var(--text);font:16px system-ui,Arial}
+    header{display:flex;justify-content:space-between;align-items:center;padding:18px 6%;border-bottom:1px solid var(--line);position:sticky;top:0;background:#080d1beF;backdrop-filter:blur(10px)}
+    .brand{font-weight:900;letter-spacing:1px;font-size:20px}.brand span{color:var(--cyan)}
+    button{border:0;border-radius:12px;padding:11px 16px;font-weight:700;cursor:pointer;background:linear-gradient(100deg,var(--accent),#328bff);color:white}
+    .ghost{background:#1b2943;border:1px solid var(--line)}main{max-width:1120px;margin:auto;padding:42px 22px}
+    .hero{text-align:center;padding:35px 0 25px}.tag{display:inline-block;padding:7px 12px;border:1px solid #3b4e78;border-radius:99px;color:#b9c9ff;background:#111b35}
+    h1{font-size:clamp(34px,6vw,58px);margin:18px 0 10px}.grad{background:linear-gradient(90deg,#8c7aff,#35d6ff);background-clip:text;color:transparent}
+    .sub{color:var(--muted);max-width:680px;margin:0 auto 22px;line-height:1.6}
+    .notice{margin:18px auto;padding:13px 16px;max-width:780px;border:1px solid #66532b;background:#2a2415;color:#ffe5a3;border-radius:12px;font-size:14px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:32px}
+    .card{background:linear-gradient(160deg,#15213a,#0e1729);border:1px solid var(--line);border-radius:18px;padding:20px;min-height:170px}
+    .icon{font-size:28px}.card h3{margin:12px 0 7px}.card p{color:var(--muted);font-size:14px;line-height:1.5}
+    .workspace{margin-top:30px;background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:22px}
+    label{display:block;margin:12px 0 7px;color:#c9d6ec;font-weight:600}textarea,input{width:100%;background:#091224;color:var(--text);border:1px solid var(--line);border-radius:12px;padding:12px;font:inherit}
+    textarea{min-height:110px;resize:vertical}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+    #output{white-space:pre-wrap;color:#dbe8ff;background:#091224;border:1px solid var(--line);border-radius:12px;padding:14px;min-height:70px;margin-top:14px}
+    footer{text-align:center;color:var(--muted);padding:30px;font-size:13px}
+    @media(max-width:560px){header{padding:14px 4%}.brand{font-size:17px}main{padding:24px 15px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="brand">ARC <span>TECH</span> AI</div>
+  <button id="loginBtn" class="ghost">Sign in with Google</button>
+</header>
+<main>
+  <section class="hero">
+    <div class="tag">✨ Your creative AI workspace</div>
+    <h1>Create more with <span class="grad">ARC TECH AI</span></h1>
+    <p class="sub">Write Hindi scripts, plan stories, prepare voiceovers and build content ideas for YouTube — all from one simple dashboard.</p>
+    <button onclick="document.querySelector('#studio').scrollIntoView({behavior:'smooth'})">Open Creator Studio</button>
+    <div class="notice">Starter version: script/story tools and browser voice preview work locally. Real AI image/video generation and YouTube uploads need connected services and their own free-tier limits.</div>
+  </section>
+
+  <section class="grid">
+    <article class="card"><div class="icon">✍️</div><h3>Hindi Script Writer</h3><p>Turn a topic into a short-video script with scenes and dialogue.</p></article>
+    <article class="card"><div class="icon">📖</div><h3>Story Maker</h3><p>Build a simple story outline for comedy, adventure or mystery content.</p></article>
+    <article class="card"><div class="icon">🗣️</div><h3>Voice Preview</h3><p>Read your text aloud using voices available in your browser.</p></article>
+    <article class="card"><div class="icon">🖼️</div><h3>Image & Thumbnail Planner</h3><p>Create prompts and thumbnail concepts ready for an image tool.</p></article>
+    <article class="card"><div class="icon">🎬</div><h3>AI Video Planner</h3><p>Convert a script into a scene-by-scene video prompt plan.</p></article>
+    <article class="card"><div class="icon">📺</div><h3>YouTube Toolkit</h3><p>Prepare titles, descriptions and tags. Upload integration can be added later.</p></article>
+  </section>
+
+  <section class="workspace" id="studio">
+    <h2>Creator Studio</h2>
+    <label for="topic">Video topic</label>
+    <input id="topic" placeholder="Example: Sheru aur Black Panther ki funny race">
+    <label for="style">Content style</label>
+    <select id="style" style="width:100%;padding:12px;background:#091224;color:#eef4ff;border:1px solid #263653;border-radius:12px">
+      <option>Funny</option><option>Horror (non-graphic)</option><option>Adventure</option><option>Emotional</option><option>Educational</option>
+    </select>
+    <div class="actions">
+      <button onclick="makeScript()">Generate sample script</button>
+      <button class="ghost" onclick="makePrompt()">Make video prompt plan</button>
+    </div>
+    <label for="customText">Your text for voice preview</label>
+    <textarea id="customText" placeholder="Apna Hindi voiceover yahan likho..."></textarea>
+    <div class="actions">
+      <button onclick="speakText()">Play voice preview</button>
+      <button class="ghost" onclick="speechSynthesis.cancel()">Stop</button>
+    </div>
+    <div id="output">Your generated draft will appear here.</div>
+  </section>
+</main>
+<footer>ARC TECH AI · Starter prototype · No paid API is connected</footer>
+
+<script>
+  const out = document.getElementById('output');
+  function getTopic(){return document.getElementById('topic').value.trim() || 'एक मजेदार नई कहानी';}
+  function makeScript(){
+    const t=getTopic(), s=document.getElementById('style').value;
+    out.textContent=`शीर्षक: ${t}\nशैली: ${s}\n\nसीन 1 (0–10 सेकंड): कहानी की जगह दिखाएँ और मुख्य किरदार का परिचय दें।\nवॉइसओवर: “आज होने वाला है कुछ ऐसा, जिसकी किसी ने उम्मीद नहीं की थी!”\n\nसीन 2 (10–25 सेकंड): ${t} से जुड़ी समस्या या मजेदार चुनौती सामने आती है।\nडायलॉग: “अब देखते हैं, कौन जीतता है!”\n\nसीन 3 (25–45 सेकंड): किरदार अपनी समझदारी से चुनौती का सामना करते हैं।\n\nसीन 4 (45–60 सेकंड): मजेदार/यादगार अंत और दर्शकों से पूछें: “आपको अगला पार्ट किस पर चाहिए?”\n\nनोट: यह sample template है, connected AI model नहीं।`;
+  }
+  function makePrompt(){
+    const t=getTopic();
+    out.textContent=`VIDEO PROMPT PLAN\n\nScene 1: Establishing wide shot introducing the setting for: ${t}. Bright, clear, family-friendly 3D cartoon animation.\nScene 2: Medium shot introducing the characters and the main challenge. Keep character design consistent.\nScene 3: Dynamic but safe action, expressive faces, smooth camera movement.\nScene 4: Clear ending, warm lighting, memorable final pose.\n\nFormat: vertical 9:16, 1080x1920, Hindi dialogue, clean audio, consistent characters.\n\nयह prompt plan है; वीडियो render करने के लिए अलग video-generation service चाहिए।`;
+  }
+  function speakText(){
+    const text=document.getElementById('customText').value.trim();
+    if(!text){out.textContent='पहले voiceover text लिखें।';return;}
+    if(!('speechSynthesis' in window)){out.textContent='इस browser में voice preview उपलब्ध नहीं है।';return;}
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);u.lang='hi-IN';speechSynthesis.speak(u);
+  }
+  document.getElementById('loginBtn').addEventListener('click',()=>alert('Google Login setup बाकी है. README में Firebase setup steps देखें.'));
+</script>
+</body>
+</html>
